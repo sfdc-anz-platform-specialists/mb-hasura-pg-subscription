@@ -63,9 +63,7 @@ var myevent;
 var consumer = subscriptionClient.subscribe(eventData => {
   // Do something on receipt of the event
   console.log("Received event: ");
-var options = { timeZone: 'AEST'};
-  var date=new Date();
-var rightnow= date.toLocaleTimeString('en-AU', options);
+  var rightnow= new Date().toLocaleTimeString('en-AU');
   this.myevent={"timestamp":rightnow,"eventData":eventData};
   console.log(JSON.stringify(eventData, null, 2));
 }, (err) => {

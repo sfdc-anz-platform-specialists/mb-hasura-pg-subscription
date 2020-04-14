@@ -1,0 +1,117 @@
+<html>
+
+  <style>
+    body {
+      background-color: white;
+      padding: 50px;
+      font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    }
+    
+    h1 {
+      color: white;
+      text-align: center;
+    }
+    
+    p {
+      font-family: verdana;
+      font-size: 20px;
+    }
+
+    th, td {
+      padding: 15px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+  
+    }
+  
+    th {
+      background-color: #a7b1c9;
+    }
+    tr:nth-child(even) {background-color: #c0cbe2;}
+    tr:nth-child(odd) {background-color: #f2f5fc;}
+  
+    a {
+      color: #00B7FF;
+    }
+
+    #items_table {
+      font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+    
+    #items_table td, #items_table th {
+      border: 1px solid #ddd;
+      padding: 8px;
+    }
+    
+    #items_table tr:nth-child(even){background-color: #f2f2f2;}
+    
+    #items_table tr:hover {background-color: #ddd;}
+    
+    #items_table th {
+      padding-top: 12px;
+      padding-bottom: 12px;
+      text-align: left;
+      background-color: #4CAF50;
+      color: white;
+    }
+    </style>
+    
+
+
+
+
+
+
+
+    </style>
+
+
+  <head>
+    <script>
+      let HOST = location.origin.replace(/^http/, 'ws')
+      let ws = new WebSocket(HOST);
+      let el;
+
+      ws.onmessage = (event) => {
+        ts = document.getElementById('server-time');
+
+        console.log(event.data);
+        var v = JSON.parse(event.data);
+        ts.innerHTML=v.current;
+        
+        console.log(JSON.stringify(v));
+        console.log('V='+v.payload.eventData.data.mycontacts.length);
+        el = document.getElementById('items_table');
+        el.innerHTML='';
+       
+        el.innerHTML+='<tr><th>Date</th><th>Name</th><th>Title</th><th>Preference</th><th>Size</th><th>Contact</th></tr>';
+
+        for (var i=0; i<v.payload.eventData.data.mycontacts.length; i++){
+        var t=v.payload.timestamp;
+
+        var record=v.payload.eventData.data.mycontacts[i];
+        var title=(record.title==null)?"":record.title;
+        var preference=(record.preference__c==null)?"":record.preference__c;
+        var size=(record.size__c==null)?"":record.size__c;
+        var mobilephone=(record.mobilephone==null)?"":record.mobilephone;
+          el.innerHTML += '<tr><td>'+ t.substring(0,t.indexOf(' '))+'</td><td>'+record.firstname+' '+record.lastname +'</td><td>'+title+'</td><td>'+preference+'</td><td>'+size+'</td><td>'+mobilephone+'</td></tr>';
+
+
+        } 
+        
+
+      };
+    </script>
+  </head>
+  <body>
+    <p id="server-time"></p>
+    <div id="server-data"></div>
+    <table id='items_table' border=1>
+      
+    </table>
+  </body>
+</html>
+
+

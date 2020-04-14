@@ -8,7 +8,7 @@
     }
     
     h1 {
-      color: white;
+      color: black;
       text-align: center;
     }
     
@@ -79,14 +79,14 @@
 
         console.log(event.data);
         var v = JSON.parse(event.data);
-        ts.innerHTML=v.current;
+        ts.innerHTML='<p>Listening on WebSocket at: '+ v.current+ '</p>';
         
         console.log(JSON.stringify(v));
         console.log('V='+v.payload.eventData.data.mycontacts.length);
         el = document.getElementById('items_table');
         el.innerHTML='';
        
-        el.innerHTML+='<tr><th>Date</th><th>Name</th><th>Title</th><th>Preference</th><th>Size</th><th>Contact</th></tr>';
+        el.innerHTML+='<tr><th>Refreshed</th><th>Name</th><th>Title</th><th>Preference</th><th>Size</th><th>Contact</th><th>Email</th><th>_hc_lastop<th></tr>';
 
         for (var i=0; i<v.payload.eventData.data.mycontacts.length; i++){
         var t=v.payload.timestamp;
@@ -95,8 +95,11 @@
         var title=(record.title==null)?"":record.title;
         var preference=(record.preference__c==null)?"":record.preference__c;
         var size=(record.size__c==null)?"":record.size__c;
+        var email=(record.email==null)?"":record.email;
+        var _hc_lastop=(record._hc_lastop==null)?"":record._hc_lastop;
+
         var mobilephone=(record.mobilephone==null)?"":record.mobilephone;
-          el.innerHTML += '<tr><td>'+ t.substring(0,t.indexOf(' '))+'</td><td>'+record.firstname+' '+record.lastname +'</td><td>'+title+'</td><td>'+preference+'</td><td>'+size+'</td><td>'+mobilephone+'</td></tr>';
+          el.innerHTML += '<tr><td>'+ t.substring(0,t.indexOf(' '))+'</td><td>'+record.firstname+' '+record.lastname +'</td><td>'+title+'</td><td>'+preference+'</td><td>'+size+'</td><td>'+mobilephone+'</td><td>'+email+'</td><td>'+_hc_lastop+'</td></tr>';
 
 
         } 
@@ -106,11 +109,14 @@
     </script>
   </head>
   <body>
+    <h2>Hasura GraphQL Postgres subscription</h2>
+    <h3>Engine: mb-hasura-engine.herokuapp.com, Remote schema: (mikebnibs3)salesforce, Postgres table/view: mycontacts, SFDC Object: Contact  </h3>
     <p id="server-time"></p>
     <div id="server-data"></div>
     <table id='items_table' border=1>
       
     </table>
+    <p>To see the subscription in action make a change to Contact record in Salesforce.</p>
   </body>
 </html>
 

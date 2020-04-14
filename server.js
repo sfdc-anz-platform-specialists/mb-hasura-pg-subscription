@@ -1,18 +1,7 @@
 'use strict';
 var path = require('path');
 
-var request = require('request');
-var options = {
-  'method': 'POST',
-  'url': 'https://mb-hasura-mikebnibs3.herokuapp.com/v1alpha1/graphql',
-  'headers': {
-    'Content-Type': 'application/json'
-  },
-  body: JSON.stringify({
-    query: 'query MyQuery {\n  mycontacts(limit: 10, order_by: {systemmodstamp: desc}, where: {loyaltyid__c: {_is_null: false}}) {\n    firstname\n    createddate\n    lastname\n    mobilephone\n    preference__c\n    sfid\n    size__c\n    title\n    accountid\n    systemmodstamp\n    loyaltyid__c\n email\n  }\n}',
-    variables: {}
-  })
-};
+
 const express = require('express');
 const { Server } = require('ws');
 const { execute } = require('apollo-link');
@@ -59,6 +48,8 @@ subscription MyContacts {
     size__c
     title
     accountid
+    email
+    _hc_lastop
   }
 }
 `;
@@ -75,8 +66,6 @@ var consumer = subscriptionClient.subscribe(eventData => {
   this.myevent={"timestamp":new Date().toTimeString(),"eventData":eventData};
   console.log(JSON.stringify(eventData, null, 2));
 }, (err) => {
-
- 
   console.log('Err');
   console.log(err);
 });

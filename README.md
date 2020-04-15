@@ -1,6 +1,6 @@
 # Hasura Postgres Subscription
 
-Livr subscriptions and browser updates to the Heroku Connect "Contact" table.
+Live subscriptions and browser updates to the Heroku Connect "Contact" table.
 
 Uses the intermediary app [mb-hasura-engine](https://mb-hasura-engine.herokuapp.com), which defines a remote PG view called "mycontacts" - adjust this accordingly
 

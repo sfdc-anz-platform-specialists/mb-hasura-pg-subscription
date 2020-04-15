@@ -66,7 +66,7 @@ var consumer = subscriptionClient.subscribe(eventData => {
 
   var eventtime= new Date().toLocaleTimeString('en-AU',{timeZone: 'Australia/Melbourne'});
   this.myevent={"timestamp":eventtime,"eventData":eventData};
-  console.log(JSON.stringify(eventData, null, 2));
+  //console.log(JSON.stringify(eventData, null, 2));
 }, (err) => {
   console.log('Err');
   console.log(err);

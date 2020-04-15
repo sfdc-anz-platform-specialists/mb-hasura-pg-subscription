@@ -64,8 +64,8 @@ var consumer = subscriptionClient.subscribe(eventData => {
   // Do something on receipt of the event
   console.log("Received event: ");
 
-  var rightnow= new Date().toLocaleTimeString('en-AU',{timeZone: 'Australia/Melbourne'});
-  this.myevent={"timestamp":rightnow,"eventData":eventData};
+  var eventtime= new Date().toLocaleTimeString('en-AU',{timeZone: 'Australia/Melbourne'});
+  this.myevent={"timestamp":eventtime,"eventData":eventData};
   console.log(JSON.stringify(eventData, null, 2));
 }, (err) => {
   console.log('Err');
@@ -74,7 +74,7 @@ var consumer = subscriptionClient.subscribe(eventData => {
 
 setInterval(() => {
   wss.clients.forEach((client) => {
-    var d=new Date().toTimeString();
+    var d=new Date().toLocaleTimeString('en-AU',{timeZone: 'Australia/Melbourne'});
     var envelope={"current":d,"payload":this.myevent};
     console.log('EVENT: +'+JSON.stringify(envelope));
   client.send(JSON.stringify(envelope));

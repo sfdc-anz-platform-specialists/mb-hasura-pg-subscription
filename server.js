@@ -9,6 +9,7 @@ const { WebSocketLink } = require('apollo-link-ws');
 const { SubscriptionClient } = require('subscriptions-transport-ws');
 const PORT = process.env.PORT || 3000;
 const ws1=require('ws');
+const INDEX = '/index.html';
 
 const getWsClient = function(wsurl) {
   const client = new SubscriptionClient(

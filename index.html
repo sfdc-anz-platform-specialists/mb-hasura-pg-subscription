@@ -53,7 +53,7 @@
       padding-top: 12px;
       padding-bottom: 12px;
       text-align: left;
-      background-color: #4CAF50;
+      background-color: #73732E;
       color: white;
     }
     </style>
@@ -72,24 +72,29 @@
         ts.innerHTML='<p>Listening on WebSocket at: '+ v.current+ '</p>';
         
         console.log(JSON.stringify(v));
-        console.log('V='+v.payload.eventData.data.mycontacts.length);
+        console.log('V='+v.payload.eventData.data.contact_interactions.length);
         el = document.getElementById('items_table');
         el.innerHTML='';
        
-        el.innerHTML+='<tr><th>Refreshed</th><th>Name</th><th>Title</th><th>Preference</th><th>Size</th><th>Contact</th><th>Email</th><th>_hc_lastop<th></tr>';
+        el.innerHTML+='<tr><th>Created</th><th>Name</th><th>Member</th><th>Offer</th><th>Interaction</th><th>Points</th><th>_hc_lastop<th></tr>';
 
-        for (var i=0; i<v.payload.eventData.data.mycontacts.length; i++){
+        for (var i=0; i<v.payload.eventData.data.contact_interactions.length; i++){
         var t=v.payload.timestamp;
 
-        var record=v.payload.eventData.data.mycontacts[i];
-        var title=(record.title==null)?"":record.title;
+        var record=v.payload.eventData.data.contact_interactions[i];
+        //var title=(record.title==null)?"":record.title;
+        var loyaltyid=(record.loyaltyid__c==null)?"":record.loyaltyid__c;
         var preference=(record.preference__c==null)?"":record.preference__c;
-        var size=(record.size__c==null)?"":record.size__c;
+        var points=(record.points__c==null)?"":record.points__c;
+        var timezone=(record.timezone==null)?"":record.timezone;
+        var interaction=(record.type__c==null)?"":record.type__c;
         var email=(record.email==null)?"":record.email;
         var _hc_lastop=(record._hc_lastop==null)?"":record._hc_lastop;
-
         var mobilephone=(record.mobilephone==null)?"":record.mobilephone;
-          el.innerHTML += '<tr><td>'+ t.substring(0,t.indexOf(' '))+'</td><td>'+record.firstname+' '+record.lastname +'</td><td>'+title+'</td><td>'+preference+'</td><td>'+size+'</td><td>'+mobilephone+'</td><td>'+email+'</td><td>'+_hc_lastop+'</td></tr>';
+        var theoffer=(record.name__c==null)?"":record.name__c;
+
+        //el.innerHTML += '<tr><td>'+ t.substring(0,t.indexOf(' '))+'</td><td>'+loyaltyid+'</td><td>'+record.firstname+' '+record.lastname +'</td><td>'+offer+'</td><td>'+points+'</td><td>'+timezone+'</td><td>'+type+'</td><td>'+mobilephone+'</td><td>'+email+'</td><td>'+_hc_lastop+'</td></tr>';
+        el.innerHTML += '<tr><td>'+ timezone+'</td><td>'+record.firstname+' '+record.lastname +'</td><td>'+loyaltyid+'</td><td>'+theoffer+'</td><td>'+interaction+'</td><td>'+points+'</td><td>'+_hc_lastop+'</td></tr>';
 
 
         } 
@@ -101,12 +106,15 @@
   <body>
     <h2>Hasura GraphQL Postgres subscription</h2>
     <h3>Engine: mb-hasura-engine.herokuapp.com, Remote schema: (mikebnibs3)salesforce, Postgres table/view: mycontacts, SFDC Object: Contact  </h3>
+    
     <p id="server-time"></p>
+    <h3>Event frame: 10 minutes</h3>
+
     <div id="server-data"></div>
     <table id='items_table' border=1>
       
     </table>
-    <p>To see the subscription in action make a change to Contact record in Salesforce.</p>
+    <p>To see the subscription in action use the <a href='https://mikebnibs.herokuapp.com'>NIBS</a> app to record some interactions.</p>
   </body>
 </html>
 

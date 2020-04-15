@@ -37,18 +37,18 @@ wss.on('connection', (ws) => {
 });
 
 const SUBSCRIBE_QUERY = gql  `
-subscription MyContacts {
-  mycontacts {
+subscription contact_interactions {
+  contact_interactions(order_by: {timezone: desc}) {
+    email
     firstname
-    createddate
     lastname
     mobilephone
-    preference__c
+    points__c
     sfid
-    size__c
-    title
-    accountid
-    email
+    timezone
+    type__c
+    loyaltyid__c
+    name__c
     _hc_lastop
   }
 }

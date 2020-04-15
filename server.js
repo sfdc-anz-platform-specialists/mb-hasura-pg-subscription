@@ -8,7 +8,6 @@ const { execute } = require('apollo-link');
 const { WebSocketLink } = require('apollo-link-ws');
 const { SubscriptionClient } = require('subscriptions-transport-ws');
 const PORT = process.env.PORT || 3000;
-const INDEX = '/index.html';
 const ws1=require('ws');
 
 const getWsClient = function(wsurl) {
@@ -78,6 +77,6 @@ setInterval(() => {
     var d=new Date().toLocaleTimeString('en-AU',{timeZone: 'Australia/Melbourne'});
     var envelope={"current":d,"payload":this.myevent};
     console.log('EVENT: +'+JSON.stringify(envelope));
-  client.send(JSON.stringify(envelope));
+    client.send(JSON.stringify(envelope));
  });
 }, 1000);
